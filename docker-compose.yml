@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./src/:/go/src
+    tty: true
+    depends_on:
+      - db
+    environment:
+      MYSQL_DATABASE: loanmana_db
+      MYSQL_HOST: dockerMySQL
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+  db:
+    image: mysql:5.7
+    container_name: dockerMySQL
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data/mysql:/var/lib/mysql:cached
+    restart: always
+    environment:
+      MYSQL_DATABASE: loanmana_db
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
